@@ -9,13 +9,13 @@
   import UserLink from '$lib/components/UserLink.svelte';
   import RadioPoll from './RadioPoll.svelte';
   import TextPoll from './TextPoll.svelte';
-  import type { Poll } from '$lib/stores/pollStore';
+  import type { Poll } from '$lib/types/poll';
 
   export let CardProps: Poll;
 </script>
 
-<Card.Root class="mx-2 shadow-md rounded-lg py-2 px-4">
-  <Card.Header>
+<Card.Root class="mx-2 shadow-md rounded-lg py-3 px-4">
+  <Card.Header class="m-0 p-0 pb-6">
     <div>
       <div
         class="flex flex-row"
@@ -26,11 +26,11 @@
             asChild
             let:builder>
             <Button
+              size="icon"
               builders={[builder]}
               variant="outline"><EllipsisVertical class="h-4 w-4" /></Button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content class="w-56">
-            <DropdownMenu.Separator />
             <DropdownMenu.Group>
               <DropdownMenu.Item>
                 <Share2 class="mr-2 h-4 w-4" />
@@ -46,15 +46,15 @@
       </div>
     </div>
   </Card.Header>
-  <Card.Content>
+  <Card.Content class="m-0 p-0">
     {#if CardProps.type == 'radio'}
       <RadioPoll />
     {:else}
       <TextPoll />
     {/if}
   </Card.Content>
-  <Card.Footer>
-    <UserLink />
+  <Card.Footer class="m-0 p-0 pt-8">
+    <UserLink UserInfo={CardProps.author} />
   </Card.Footer>
 </Card.Root>
 
