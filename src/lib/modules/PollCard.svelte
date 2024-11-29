@@ -14,7 +14,7 @@
   export let CardProps: Poll;
 </script>
 
-<Card.Root class="mx-2 my-2 shadow-md sm:mx-auto rounded-lg py-2 px-4">
+<Card.Root class="mx-2 shadow-md rounded-lg py-2 px-4">
   <Card.Header>
     <div>
       <div
