@@ -5,7 +5,7 @@
   import { Cat, CircleUserRound, KeyRound } from 'lucide-svelte';
 </script>
 
-<nav class="flex flex-row items-center justify-center py-2 px-4">
+<nav class="flex flex-row items-center justify-center py-2 px-4 max-w-screen-sm relative mx-auto">
   <a
     href="/"
     class="flex flex-row items-center gap-2">
