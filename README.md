@@ -1,6 +1,4 @@
-# Hack template for frontend
-
-Our hackaton frontend in Tambov
+# #FA7724 hack &mdash; frontend
 
 ## Contents
 
@@ -40,8 +38,8 @@ Use following commands:
 
 ```bash
 # clone the repository
-git clone git@github.com:InTeam-Russia/hack-template-frontend.git
-cd hack-template-frontend
+git clone git@github.com:InTeam-Russia/fall24hack-frontend.git
+cd fall24hack-frontend
 
 # install yarn
 npm i -g yarn
@@ -50,10 +48,6 @@ npm i -g yarn
 yarn
 yarn dev
 ```
-
-#### By GitHub
-
-Just press `Use template`, make new repo and work with it
 
 ## Contribute
 
