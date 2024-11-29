@@ -1,0 +1,55 @@
+<script lang="ts">
+  import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+  import { Skeleton } from '$lib/components/ui/skeleton';
+  import { userStore } from '$lib/stores/userStore';
+  import { Cat, CircleUserRound, KeyRound } from 'lucide-svelte';
+</script>
+
+<nav class="flex flex-row items-center justify-between py-2 px-4">
+  <a
+    href="/"
+    class="flex flex-row items-center gap-2">
+    <Cat class="h-8 text-primary" />
+    <div class="flex flex-col items-center text-primary">
+      <span class="text-xl font-bold uppercase tracking-wide">Котец</span>
+      <small class="text-[0.5rem] italic -mt-1">Какой кот ты сегодня?</small>
+    </div>
+  </a>
+
+  {#await userStore}
+    <Skeleton class="rounded-full w-8 aspect-square ml-auto bg-zinc-300 absolute right-4" />
+  {:then}
+    {#if $userStore === null}
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger
+          class="flex flex-row items-center justify-center bg-zinc-200 dark:bg-zinc-800 rounded-full w-8 aspect-square ml-auto absolute right-4">
+          <KeyRound class="w-4 text-zinc-600 dark:text-zinc-300" />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Group>
+            <DropdownMenu.Item href="/">Главная</DropdownMenu.Item>
+            <DropdownMenu.Item href="/auth">Вход</DropdownMenu.Item>
+            <DropdownMenu.Item href="/register">Регистрация</DropdownMenu.Item>
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    {:else}
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger
+          class="flex flex-row items-center justify-center bg-zinc-200 dark:bg-zinc-800 rounded-full w-8 aspect-square ml-auto absolute right-4">
+          <CircleUserRound class="w-4 text-zinc-600 dark:text-zinc-300" />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Group>
+            <DropdownMenu.Item class="font-bold">
+              @{$userStore?.username ?? 'iafonichev'}
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item href="/">Главная</DropdownMenu.Item>
+            <DropdownMenu.Item href="/profile">Профиль</DropdownMenu.Item>
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    {/if}
+  {/await}
+</nav>

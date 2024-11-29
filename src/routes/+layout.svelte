@@ -1,11 +1,18 @@
 <script lang="ts">
-  import ThemeSwitcher from '$lib/components/ThemeSwitcher.svelte';
+  import Navbar from '$lib/modules/Navbar.svelte';
+  import { onMount } from 'svelte';
   import '../app.css';
-  import { ModeWatcher } from 'mode-watcher';
+  import { ModeWatcher, setMode } from 'mode-watcher';
 
   let { children } = $props();
+
+  onMount(() => {
+    setMode('light');
+  });
 </script>
 
 <ModeWatcher />
-<ThemeSwitcher />
-{@render children()}
+<Navbar />
+<main class="max-w-screen-md mb-12 mx-auto">
+  {@render children()}
+</main>
