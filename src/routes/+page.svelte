@@ -31,7 +31,7 @@
   ];
 </script>
 
-<main class="items-stretch max-w-screen-sm mt-16 mx-auto">
+<main class="items-stretch max-w-screen-sm mt-6 md:mt-16 mx-auto">
   {#each feed as item}
     {#if item[0] && 'firstName' in item[0]}
       <div class="flex flex-col sm:flex-row gap-2 justify-between w-full">
