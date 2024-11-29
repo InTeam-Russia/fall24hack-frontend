@@ -45,7 +45,7 @@
       if (response.ok) {
         $userStore = await getUserSession();
         loadingState = false;
-        goto('/');
+        goto('/profile');
       } else {
         const errorData = await response.json();
         errorProvider.general = (errorData.message as string) || 'Ошибка авторизации';
