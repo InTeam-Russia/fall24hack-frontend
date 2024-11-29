@@ -12,6 +12,7 @@
     lastName: null,
     email: null,
     username: null,
+    tgLink: null,
     password: null,
     confirmPassword: null,
     general: null,
@@ -22,6 +23,7 @@
     lastName: '',
     email: '',
     username: '',
+    tgLink: '',
     password: '',
     confirmPassword: '',
   };
@@ -34,6 +36,10 @@
       lastName: z.string().min(1, { message: 'Фамилия обязательна' }),
       email: z.string().email({ message: 'Некорректный email' }),
       username: z.string().min(1, { message: 'Хэндл обязателен' }),
+      tgLink: z
+        .string()
+        .min(1, { message: 'Ссылка на Telegram обязательна' })
+        .regex(/^t\.me\/[a-zA-Z0-9_]+$/, 'Ссылка должна иметь вид t.me/username'),
       password: z
         .string()
         .min(8, { message: 'Пароль должен содержать минимум 8 символов' })
@@ -62,6 +68,7 @@
       lastName: null,
       email: null,
       username: null,
+      tgLink: null,
       password: null,
       confirmPassword: null,
     };
@@ -69,8 +76,9 @@
     const formRequest: Record<string, string | null> = {
       firstName: formState.firstName,
       lastName: formState.lastName,
-      email: formState.null,
+      email: formState.email,
       username: formState.username,
+      tgLink: formState.tgLink,
       password: formState.password,
     };
 
@@ -141,7 +149,7 @@
       placeholder="Введите email"
       bind:value={formState.email}
       tabindex={3} />
-    {#if errorProvider.useremailname}
+    {#if errorProvider.email}
       <small class="text-destructive">{errorProvider.email}</small>
     {/if}
   </div>
@@ -161,6 +169,20 @@
   </div>
 
   <div class="flex flex-col gap-2 my-2">
+    <Label for="tgLink">Телеграм</Label>
+    <Input
+      type="text"
+      id="tgLink"
+      name="tgLink"
+      placeholder="Введите ссылку формата t.me/username"
+      bind:value={formState.tgLink}
+      tabindex={5} />
+    {#if errorProvider.tgLink}
+      <small class="text-destructive">{errorProvider.tgLink}</small>
+    {/if}
+  </div>
+
+  <div class="flex flex-col gap-2 my-2">
     <Label for="password">Пароль</Label>
     <Input
       type="password"
@@ -168,7 +190,7 @@
       name="password"
       placeholder="Введите пароль"
       bind:value={formState.password}
-      tabindex={5} />
+      tabindex={6} />
     {#if errorProvider.password}
       <small class="text-destructive">{errorProvider.password}</small>
     {/if}
@@ -182,7 +204,7 @@
       name="confirmPassword"
       placeholder="Повторите пароль"
       bind:value={formState.confirmPassword}
-      tabindex={6} />
+      tabindex={7} />
     {#if errorProvider.confirmPassword}
       <small class="text-destructive">{errorProvider.confirmPassword}</small>
     {/if}
