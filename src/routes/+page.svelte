@@ -2,10 +2,23 @@
   import ProfileCard from '$lib/modules/ProfileCard.svelte';
   import { userStore, type User } from '$lib/stores/userStore';
   import PollCard from '$lib/modules/PollCard.svelte';
+  import type { Poll } from '$lib/types/poll';
 
-  type UserOrPoll = User[];
+  type UserOrPoll = User[] | Poll;
 
   let feed: UserOrPoll[] = [
+    {
+      id: 123,
+      type: 'radio',
+      text: '123',
+      author: {
+        firstName: 'Иван',
+        lastName: 'Афоничев',
+        username: 'iafonichev',
+        email: 'iafonichev@gmail.com',
+        tgLink: 't.me/BoringPlace',
+      },
+    },
     [
       {
         firstName: 'Иван',
@@ -29,31 +42,39 @@
         tgLink: 't.me/fuckmeplsomg',
       },
     ],
+    {
+      id: 123,
+      type: 'text',
+      text: '123',
+      author: {
+        firstName: 'Иван',
+        lastName: 'Афоничев',
+        username: 'iafonichev',
+        email: 'iafonichev@gmail.com',
+        tgLink: 't.me/BoringPlace',
+      },
+    },
   ];
 </script>
 
 <main class="feed items-stretch max-w-screen-sm mt-6 md:mt-16 mx-auto">
   {#each feed as item}
-    {#if item[0] && 'firstName' in item[0]}
-      <div class="flex flex-col sm:flex-row gap-2 justify-between w-full">
-        <ProfileCard CardProps={item[0] as unknown as User} />
-        <ProfileCard CardProps={item[1] as unknown as User} />
-        <ProfileCard CardProps={item[2] as unknown as User} />
+    {#if Array.isArray(item) && 'firstName' in item[0]}
+      <div class="flex flex-col gap-4">
+        <div class="ml-4">
+          <h1 class="text-3xl font-bold mb-1">Пообщаемся?</h1>
+          <small class="text-sm">Сегодня эти котцы отвечали похожим образом</small>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2 justify-between w-full">
+          <ProfileCard CardProps={item[0] as unknown as User} />
+          <ProfileCard CardProps={item[1] as unknown as User} />
+          <ProfileCard CardProps={item[2] as unknown as User} />
+        </div>
       </div>
+    {:else}
+      <PollCard CardProps={item as unknown as Poll} />
     {/if}
   {/each}
-  {#each feed as item}
-    {#if item[0] && 'firstName' in item[0]}
-      <div class="flex flex-col sm:flex-row gap-2 justify-between w-full">
-        <ProfileCard CardProps={item[0] as unknown as User} />
-        <ProfileCard CardProps={item[1] as unknown as User} />
-        <ProfileCard CardProps={item[2] as unknown as User} />
-      </div>
-    {/if}
-  {/each}
-
-  <PollCard CardProps={{ type: 'radio' }} />
-  <PollCard CardProps={{ type: 'text' }} />
 </main>
 
 <div class="w-full overflow-hidden">
