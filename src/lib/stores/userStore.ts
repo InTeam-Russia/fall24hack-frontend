@@ -15,3 +15,5 @@ export const userStore = writable<User | null>({
   email: 'huksuka@example.com',
   tgLink: 'https://t.me/huksuka',
 });
+
+// export const userStore = writable<User | null>(null);
