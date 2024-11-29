@@ -59,9 +59,9 @@
 </script>
 
 <form
-  class="flex flex-col max-w-[480px] mx-4 sm:mx-auto"
+  class="flex flex-col max-w-[480px] mx-4 sm:mx-auto mt-12"
   on:submit|preventDefault={handleSubmit}>
-  <h1 class="text-3xl text-center font-bold mt-12 mb-6">Вход</h1>
+  <h1 class="text-3xl text-center font-bold mb-6">Вход</h1>
 
   <div class="flex flex-col gap-2 my-2">
     <Label for="username">Хэндл</Label>
