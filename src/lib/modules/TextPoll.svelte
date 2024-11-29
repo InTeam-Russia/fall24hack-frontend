@@ -8,9 +8,9 @@
 <div
   class="grid w-full gap-1.5"
   style="margin-bottom: 1rem">
-  <Label for="message-2">Твой ответ:</Label>
+  <Label>Твой ответ:</Label>
   <Textarea
     placeholder="У попа была собака..."
-    id="message-2" />
+    class="max-h-[10rem]" />
 </div>
 <Button>Ответить</Button>
