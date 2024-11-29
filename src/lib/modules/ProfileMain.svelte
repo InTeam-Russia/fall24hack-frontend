@@ -46,7 +46,7 @@
 
 {#if loadingState.userInfo}
   <form class="flex flex-col max-w-screen-md mx-4 sm:mx-auto">
-    <h1 class="text-3xl text-center font-bold mt-12">Общее</h1>
+    <h1 class="text-3xl text-center font-bold mt-12">Профиль</h1>
     <Separator class="mb-6" />
 
     <div class="flex flex-col gap-2 my-2">
@@ -78,7 +78,7 @@
   <form
     class="flex flex-col max-w-screen-md mx-4 sm:mx-auto"
     on:submit|preventDefault={handleLogout}>
-    <h1 class="text-3xl text-center font-bold mt-12 mb-6">Общее</h1>
+    <h1 class="text-3xl text-center font-bold mt-12 mb-6">Профиль</h1>
     <Separator class="mb-6" />
 
     <div class="flex flex-col my-2">
