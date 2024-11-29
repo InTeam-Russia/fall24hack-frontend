@@ -43,7 +43,7 @@
       });
 
       if (response.ok) {
-        $userStore = await getUserSession();
+        userStore.set(await getUserSession());
         loadingState = false;
         goto('/profile');
       } else {
