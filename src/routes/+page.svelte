@@ -1,6 +1,7 @@
 <script lang="ts">
   import ProfileCard from '$lib/modules/ProfileCard.svelte';
   import { userStore, type User } from '$lib/stores/userStore';
+  import PollCard from '$lib/modules/PollCard.svelte';
 
   type UserOrPoll = User[];
 
@@ -31,7 +32,7 @@
   ];
 </script>
 
-<main class="items-stretch max-w-screen-sm mt-6 md:mt-16 mx-auto">
+<main class="feed items-stretch max-w-screen-sm mt-6 md:mt-16 mx-auto">
   {#each feed as item}
     {#if item[0] && 'firstName' in item[0]}
       <div class="flex flex-col sm:flex-row gap-2 justify-between w-full">
@@ -41,8 +42,29 @@
       </div>
     {/if}
   {/each}
+  {#each feed as item}
+    {#if item[0] && 'firstName' in item[0]}
+      <div class="flex flex-col sm:flex-row gap-2 justify-between w-full">
+        <ProfileCard CardProps={item[0] as unknown as User} />
+        <ProfileCard CardProps={item[1] as unknown as User} />
+        <ProfileCard CardProps={item[2] as unknown as User} />
+      </div>
+    {/if}
+  {/each}
+
+  <PollCard CardProps={{ type: 'radio' }} />
+  <PollCard CardProps={{ type: 'text' }} />
 </main>
 
 <div class="w-full overflow-hidden">
   {JSON.stringify($userStore)}
 </div>
+
+<style>
+  .feed > :global(*) {
+    margin-bottom: 2rem;
+  }
+  .feed:last-child {
+    margin-bottom: inherit;
+  }
+</style>

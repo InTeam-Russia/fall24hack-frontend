@@ -7,7 +7,7 @@
   export let CardProps: User;
 </script>
 
-<Card class="mx-2 my-2 rounded-lg py-3 px-4 shadow-md flex-1 flex flex-col justify-between">
+<Card class="mx-2 rounded-lg py-3 px-4 shadow-md flex-1 flex flex-col justify-between">
   <div>
     <h1 class="font-bold text-xl">{CardProps.firstName} {CardProps.lastName}</h1>
     <small class="flex flex-row items-center text-zinc-500 mt-2">
