@@ -1,0 +1,4 @@
+{
+  "*.{svelte,html,css,js,ts}": ["yarn format", "yarn lint"],
+  "*": ["yarn format"]
+}
