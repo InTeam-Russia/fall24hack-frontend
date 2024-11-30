@@ -1,6 +1,15 @@
 <script lang="ts">
   import { userStore } from '$lib/stores/userStore';
   import Feed from '$lib/modules/Feed.svelte';
+  import { onMount } from 'svelte';
+  import { get } from 'svelte/store';
+  import { goto } from '$app/navigation';
+
+  onMount(() => {
+    if (get(userStore) === null) {
+      goto('/auth');
+    }
+  });
 </script>
 
 <main class="feed items-stretch max-w-screen-sm mt-6 md:mt-16 mx-auto">
