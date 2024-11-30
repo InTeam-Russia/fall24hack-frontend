@@ -1,7 +1,6 @@
 <script lang="ts">
   import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
   import { Button } from '$lib/components/ui/button/index.js';
-
   import * as Card from '$lib/components/ui/card/index.js';
   import MessageCircleWarning from 'lucide-svelte/icons/message-circle-warning';
   import Share2 from 'lucide-svelte/icons/share-2';
@@ -12,6 +11,9 @@
   import type { Poll } from '$lib/types/poll';
 
   export let CardProps: Poll;
+  let value: string;
+
+  const handleSubmit = () => {};
 </script>
 
 <Card.Root class="mx-2 shadow-md rounded-lg py-3 px-4">
@@ -20,7 +22,7 @@
       <div
         class="flex flex-row"
         style="justify-content: space-between; align-items: center">
-        <Card.Title>Выбери свою ориентацию (иначе ты пидорас)</Card.Title>
+        <Card.Title>{CardProps.text}</Card.Title>
         <DropdownMenu.Root>
           <DropdownMenu.Trigger
             asChild
@@ -48,15 +50,17 @@
   </Card.Header>
   <Card.Content class="m-0 p-0">
     {#if CardProps.type == 'radio'}
-      <RadioPoll />
+      <RadioPoll
+        variants={CardProps.variants ?? []}
+        bind:value
+        {handleSubmit} />
     {:else}
-      <TextPoll />
+      <TextPoll
+        bind:value
+        {handleSubmit} />
     {/if}
   </Card.Content>
   <Card.Footer class="m-0 p-0 pt-8">
     <UserLink UserInfo={CardProps.author} />
   </Card.Footer>
 </Card.Root>
-
-<style>
-</style>

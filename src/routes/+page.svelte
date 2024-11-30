@@ -8,9 +8,10 @@
 
   let feed: UserOrPoll[] = [
     {
-      id: 123,
+      id: 1,
       type: 'radio',
-      text: '123',
+      text: 'Выбери свою ориентацию (иначе ты пидорас)',
+      variants: ['Гей', 'Пидорас', 'Гомосек'],
       author: {
         firstName: 'Иван',
         lastName: 'Афоничев',
@@ -43,9 +44,9 @@
       },
     ],
     {
-      id: 123,
+      id: 2,
       type: 'text',
-      text: '123',
+      text: 'Опиши свои чувства по отношению к Третьему рейху',
       author: {
         firstName: 'Иван',
         lastName: 'Афоничев',
