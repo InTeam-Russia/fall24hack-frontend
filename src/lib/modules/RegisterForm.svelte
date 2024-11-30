@@ -62,6 +62,7 @@
       validateResult.error.errors?.forEach((err) => {
         errorProvider[err.path[0]] = err.message;
       });
+      loadingState = false;
       return false;
     }
 
