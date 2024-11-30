@@ -14,4 +14,8 @@ export interface User {
   tgLink: string;
 }
 
+export interface ApiError {
+  error: string;
+}
+
 export type Feed = User[] | Poll;
