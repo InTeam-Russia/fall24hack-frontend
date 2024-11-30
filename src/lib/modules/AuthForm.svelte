@@ -4,8 +4,6 @@
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
   import { SERVER } from '$lib/config';
-  import { getUserSession } from '$lib/data';
-  import { userStore } from '$lib/stores/userStore';
   import { KeyRound, LoaderCircle } from 'lucide-svelte';
 
   let errorProvider: Record<string, string | null> = {
@@ -45,7 +43,6 @@
       });
 
       if (response.ok) {
-        $userStore = await getUserSession();
         loadingState = false;
         goto('/profile');
       } else {
