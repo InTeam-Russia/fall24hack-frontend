@@ -1,7 +1,7 @@
 export interface Poll {
   id?: number;
   text: string;
-  type: string;
+  type: 'FREE' | 'RADIO';
   variants?: string[];
   author: User;
 }
