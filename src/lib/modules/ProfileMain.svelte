@@ -3,7 +3,6 @@
   import { Button } from '$lib/components/ui/button';
   import { Separator } from '$lib/components/ui/separator';
   import { Skeleton } from '$lib/components/ui/skeleton';
-  import { logout } from '$lib/data';
   import { userStore } from '$lib/stores/userStore';
   import { AtSign, LoaderCircle, LogOut, Mail, MessageSquareMore } from 'lucide-svelte';
   import { onMount } from 'svelte';
@@ -39,7 +38,6 @@
 
   const handleLogout = async () => {
     loadingState.logout = true;
-    await logout();
     goto('/auth');
   };
 </script>
