@@ -7,8 +7,9 @@
   import FeedRepository from '$lib/repository/feed';
   import Spinner from '$lib/components/Spinner.svelte';
   import { cn } from '$lib/utils.js';
+  import { Button } from '$lib/components/ui/button';
 
-  let loadingState = 'LOADED';
+  let loadingState = 'NOT_LOADING'; // LOADED, LOADING, NOT_LOADING
   let feed: Feed[];
 
   onMount(async () => {
@@ -42,6 +43,8 @@
       style="text-align:center">
       На сегодня опросы закончились
     </p>
+  {:else if loadingState == 'NOT_LOADING'}
+    <Button>Загрузить ещё</Button>
   {/if}
 </div>
 
