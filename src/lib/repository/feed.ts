@@ -10,11 +10,24 @@ export default class FeedRepository {
   public static get Instance() {
     return this._instance || (this._instance = new this());
   }
-  public async getFeed(): Promise<Feed[]> {
+  public async getNextFeed(
+    offset: number,
+    size: number,
+    direction: boolean = false,
+  ): Promise<Feed[]> {
     if (this.debug) {
+      const delay = (ms: number) => {
+        return new Promise((resolve) => {
+          setTimeout(resolve, ms);
+        });
+      };
+
+      console.log(direction); // TODO: mock for linter, remove this when fetch is used
+
+      await delay(2000);
+
       const json: Feed[] = feedJson as Feed[];
       return json;
     }
     return [];
-  }
 }
