@@ -7,6 +7,7 @@
   import { Button } from '$lib/components/ui/button';
   import { Skeleton } from '$lib/components/ui/skeleton';
   import { ChevronDown, Loader2 } from 'lucide-svelte';
+  import CreatePollForm from './CreatePollForm.svelte';
 
   type loadingState = 'PENDING' | 'ERROR' | 'OK';
 
@@ -33,6 +34,8 @@
     loading.nextFeed = 'OK';
   };
 </script>
+
+<CreatePollForm />
 
 {#if loading.feed === 'PENDING'}
   <Skeleton class="w-[100% - 2rem] mx-2 h-36" />

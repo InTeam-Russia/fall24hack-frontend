@@ -1,7 +1,7 @@
 export default [
   {
     id: 1,
-    type: 'radio',
+    type: 'RADIO',
     text: 'Выбери свою ориентацию (иначе ты пидорас)',
     variants: ['Гей', 'Пидорас', 'Гомосек'],
     author: {
@@ -37,7 +37,7 @@ export default [
   ],
   {
     id: 2,
-    type: 'text',
+    type: 'FREE',
     text: 'Опиши свои чувства по отношению к Третьему рейху',
     author: {
       firstName: 'Иван',

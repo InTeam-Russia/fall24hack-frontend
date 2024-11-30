@@ -6,6 +6,9 @@
   import * as Tabs from '$lib/components/ui/tabs';
   import { Input } from '$lib/components/ui/input';
   import { z } from 'zod';
+  import { Polls } from '$lib/repository/polls';
+  import { userStore } from '$lib/stores/userStore';
+  import type { Poll, User } from '$lib/utils/types';
 
   const placeholders = [
     'какой ваш любимый фильм всех времен?',
@@ -23,14 +26,16 @@
   let errorProvider: Record<string, string | null> = {
     text: null,
     variants: null,
+    general: null,
   };
 
   type PollType = 'radio' | 'text';
 
-  let formState: Record<string, string | PollType | string[]> = {
+  let formState: Record<string, string | PollType | string[] | User | null> = {
     text: '',
     type: 'text',
     variants: ['', '', '', '', '', '', '', '', '', ''],
+    author: $userStore,
   };
 
   let loading: boolean = false;
@@ -39,7 +44,7 @@
     .object({
       text: z.string().min(1, { message: 'Вы не задали вопрос' }),
       type: z.enum(['radio', 'text']),
-      variants: z.array(z.string()).length(formState.variants.length),
+      variants: z.array(z.string()).length((formState.variants as unknown as string[])?.length),
     })
     .superRefine((data, ctx) => {
       if (data.type === 'radio') {
@@ -71,55 +76,35 @@
     errorProvider = {
       text: null,
       variants: null,
+      general: null,
     };
 
-    const formRequest: Record<string, string | PollType | string[]> = {
+    const formRequest: Record<string, string | PollType | string[] | User | null> = {
       text: formState.text,
-      type: formState.type,
+      type: formState.type === 'text' ? 'FREE' : 'RADIO',
     };
 
     if (formState.type === 'radio') {
       formRequest.variants = (formState.variants as unknown as string[]).filter(
         (item: string) => item !== '',
       );
+    } else {
+      formRequest.variants = [];
     }
 
-    const delay = (ms: number) => {
-      return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-      });
-    };
+    formRequest.author = $userStore;
 
-    await delay(2000);
+    errorProvider.general = (await Polls.Instance.AddPoll(
+      formRequest as unknown as Poll,
+    )) as unknown as string;
 
-    try {
-      //   const response = await fetch(`${SERVER}/login`, {
-      //     method: 'POST',
-      //     credentials: 'include',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(formRequest),
-      //   });
-      //   if (response.ok) {
-      //     userStore.set(await getUserSession());
-      //     loading = false;
-      //     goto('/profile');
-      //   } else {
-      //     const errorData = await response.json();
-      //     errorProvider.general = (errorData.message as string) || 'Ошибка авторизации';
-      //     loading = false;
-      //   }
-    } catch (error) {
-      errorProvider.general = (error as string) || 'Сетевая ошибка. Попробуйте позже';
-    } finally {
-      loading = false;
-    }
+    loading = false;
+    location.reload();
   };
 </script>
 
 <form
-  class="flex flex-col max-w-[480px] mx-4 sm:mx-auto mt-12"
+  class="flex flex-col max-w-screen-sm mx-4 sm:mx-2 mt-12"
   on:submit|preventDefault={handleSubmit}>
   <h1 class="text-3xl text-center font-bold mb-6">Задай свой вопрос</h1>
 
@@ -128,7 +113,7 @@
     <Textarea
       placeholder={`Например, ${placeholders[Math.floor(Math.random() * placeholders.length)]}`}
       class="max-h-[10rem]"
-      bind:value={formState.text} />
+      bind:value={formState.text as unknown as string} />
     {#if errorProvider.text}
       <small class="text-destructive">{errorProvider.text}</small>
     {/if}
@@ -142,13 +127,13 @@
       <Tabs.Trigger value="radio">Выбор</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="radio">
-      {#each Array.from({ length: formState.variants.length }, (_, idx) => idx + 1) as idx}
-        {#if idx === 1 || formState.variants[idx - 2] !== ''}
+      {#each Array.from({ length: (formState.variants as unknown as string[])?.length }, (_, idx) => idx + 1) as idx}
+        {#if idx === 1 || (formState.variants as unknown as string[])[idx - 2] !== ''}
           <div class="flex flex-col gap-2 my-4">
             <Label for={`radio-{idx}`}>Введите вариант ответа №{idx}</Label>
             <Input
               name={`radio-{idx}`}
-              bind:value={formState.variants[idx - 1]} />
+              bind:value={(formState.variants as unknown as string[])[idx - 1]} />
           </div>
         {/if}
       {/each}
@@ -158,6 +143,10 @@
       {/if}
     </Tabs.Content>
   </Tabs.Root>
+
+  {#if errorProvider.general}
+    <small class="text-destructive my-2">{errorProvider.general}</small>
+  {/if}
 
   <Button
     type="submit"

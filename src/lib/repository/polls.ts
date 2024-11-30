@@ -55,7 +55,7 @@ export class Polls {
       }
       return 'Возникли проблемы на сервере';
     } catch {
-      return 'fetch не отработал';
+      return 'Запрос не отработал, повторите позднее';
     }
   }
 
@@ -77,7 +77,7 @@ export class Polls {
       }
       return 'Возникли проблемы на сервере';
     } catch {
-      return 'fetch не отработал';
+      return 'Запрос не отработал, повторите позднее';
     }
   }
 }
