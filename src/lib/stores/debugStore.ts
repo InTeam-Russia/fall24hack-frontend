@@ -1,3 +1,9 @@
+import type { DebugConfig } from '$lib/utils/types';
 import { readable } from 'svelte/store';
 
-export const debugStore = readable<boolean>(true);
+export const debugStore = readable<DebugConfig>({
+  feed: false,
+  session: false,
+  polls: true,
+  recomendations: true,
+});

@@ -1,8 +1,7 @@
 <script lang="ts">
   import ProfileCard from '$lib/modules/ProfileCard.svelte';
   import PollCard from '$lib/modules/PollCard.svelte';
-  import type { Poll } from '$lib/utils/types';
-  import type { Feed, User } from '$lib/utils/types';
+  import type { Feed } from '$lib/utils/types';
   import { onMount } from 'svelte';
   import FeedRepository from '$lib/repository/feed';
   import { Button } from '$lib/components/ui/button';
@@ -17,17 +16,18 @@
     button: 'OK',
   };
 
+  let page: number = 0;
   let feed: Feed[] = [];
 
   onMount(async () => {
-    feed = await FeedRepository.Instance.getNextFeed(0, 3);
+    feed = await FeedRepository.Instance.getNextFeed(page, 3);
     loading.feed = 'OK';
   });
 
   const handleUpdateFeed = async () => {
     loading.button = 'PENDING';
     loading.nextFeed = 'PENDING';
-    const nextFeed = await FeedRepository.Instance.getNextFeed(0, 3);
+    const nextFeed = await FeedRepository.Instance.getNextFeed(++page, 3);
     feed = feed.concat(nextFeed);
     loading.button = 'OK';
     loading.nextFeed = 'OK';
@@ -50,14 +50,14 @@
           <h1 class="text-3xl font-bold mb-1">Пообщаемся?</h1>
           <small class="text-sm">Сегодня эти котцы отвечали похожим образом</small>
         </div>
-        <div class="flex flex-col sm:flex-row gap-2 justify-between w-full">
-          <ProfileCard CardProps={item[0] as unknown as User} />
-          <ProfileCard CardProps={item[1] as unknown as User} />
-          <ProfileCard CardProps={item[2] as unknown as User} />
+        <div class="flex flex-col gap-2 justify-between w-full">
+          {#each item as user}
+            <ProfileCard CardProps={user} />
+          {/each}
         </div>
       </div>
     {:else}
-      <PollCard CardProps={item as unknown as Poll} />
+      <PollCard CardProps={item} />
     {/if}
   {/each}
 {:else}

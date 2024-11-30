@@ -1,6 +1,9 @@
 import { SERVER } from '$lib/config';
+import { debugStore } from '$lib/stores/debugStore';
+import { get } from 'svelte/store';
 import { objectToQueryString } from '$lib/utils/converters';
 import type { Poll, PollAnswer, PollsRequest } from '$lib/utils/types';
+import polls from '$mocks/polls';
 
 //import { debugStore } from '$lib/stores/debugStore';
 export class Polls {
@@ -10,6 +13,9 @@ export class Polls {
     return this._instance || (this._instance = new this());
   }
   public async GetPolls(request: PollsRequest): Promise<Poll[]> {
+    if (get(debugStore).polls) {
+      return polls;
+    }
     try {
       const queryParameters = objectToQueryString({
         pageIndex: request.pageIndex,

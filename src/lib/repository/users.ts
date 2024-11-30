@@ -5,18 +5,19 @@ import { userStore } from '$lib/stores/userStore';
 import { debugStore } from '$lib/stores/debugStore';
 import SessionMock from '$mocks/session';
 import { goto } from '$app/navigation';
+import { get } from 'svelte/store';
 
 export const logout = async (): Promise<void> => {};
 
 export interface SessionResponse {
-  Id: number;
-  CreatedAt: number;
-  FirstName: string;
-  LastName: string;
-  Username: string;
-  Email: string;
-  Role: string;
-  TgLink: string;
+  id: number;
+  createdAt: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  role: string;
+  tgLink: string;
 }
 
 export class Users {
@@ -76,20 +77,20 @@ export class Users {
   }
 
   public async GetSession(): Promise<User | null> {
-    if (debugStore) {
+    if (get(debugStore).session) {
       return SessionMock;
     }
     const response: SessionResponse | ApiError | null = await this.fetchSession();
-    if (!response || !('Id' in response)) {
+    if (!response || !('id' in response)) {
       return null;
     }
     const session: SessionResponse = response as SessionResponse;
     const user: User = {
-      firstName: session.FirstName,
-      lastName: session.LastName,
-      username: session.Username,
-      email: session.Email,
-      tgLink: session.TgLink,
+      firstName: session.firstName,
+      lastName: session.lastName,
+      username: session.username,
+      email: session.email,
+      tgLink: session.tgLink,
     };
     return user;
   }
