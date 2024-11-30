@@ -4,6 +4,7 @@ import { SERVER } from '$lib/config';
 import { userStore } from '$lib/stores/userStore';
 import { debugStore } from '$lib/stores/debugStore';
 import SessionMock from '$mocks/session';
+import { goto } from '$app/navigation';
 
 export const logout = async (): Promise<void> => {};
 
@@ -28,7 +29,30 @@ export class Users {
     return this._instance || (this._instance = new this());
   }
   public async Login() {}
-  public async Register() {}
+
+  public async Register(formRequest: Record<string, string | null>): Promise<null | string> {
+    try {
+      const response = await fetch(`${SERVER}/register`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formRequest),
+      });
+
+      if (response.ok) {
+        goto('/auth');
+      } else {
+        const errorData = await response.json();
+        return (errorData.message as string) || 'Ошибка регистрации';
+      }
+    } catch (error) {
+      return (error as string) || 'Сетевая ошибка. Попробуйте позже';
+    }
+    return null;
+  }
+
   public async GetSession(): Promise<User | null> {
     if (debugStore) {
       return SessionMock;
@@ -47,6 +71,7 @@ export class Users {
     };
     return user;
   }
+
   public async Logout(): Promise<void> {
     try {
       const response = await fetch(`${SERVER}/logout`, {
@@ -65,6 +90,7 @@ export class Users {
       return;
     }
   }
+
   private async fetchSession(): Promise<SessionResponse | ApiError | null> {
     try {
       const response = await fetch(`${SERVER}/session`, {
