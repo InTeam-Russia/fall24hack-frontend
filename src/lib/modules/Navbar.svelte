@@ -47,6 +47,7 @@
             <DropdownMenu.Separator />
             <DropdownMenu.Item href="/">Главная</DropdownMenu.Item>
             <DropdownMenu.Item href="/profile">Профиль</DropdownMenu.Item>
+            <DropdownMenu.Item href="/polls/new">Задать вопрос</DropdownMenu.Item>
           </DropdownMenu.Group>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
