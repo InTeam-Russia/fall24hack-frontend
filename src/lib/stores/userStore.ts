@@ -1,12 +1,5 @@
+import type { User } from '$lib/utils/types';
 import { writable } from 'svelte/store';
-
-export interface User {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  tgLink: string;
-}
 
 export const userStore = writable<User | null>({
   firstName: 'Хуй',
