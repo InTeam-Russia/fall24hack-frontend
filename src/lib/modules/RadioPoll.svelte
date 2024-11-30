@@ -12,10 +12,10 @@
   bind:value>
   {#each variants as variant}
     <div class="flex items-center space-x-2">
-      <RadioGroup.Item
-        value={variant}
-        id="r2" class="py-2" />
-      <Label for="r2" class="py-2">{variant}</Label>
+      <Label class="flex items-center gap-2 py-2">
+        <RadioGroup.Item value={variant} />
+        {variant}
+      </Label>
     </div>
   {/each}
   <RadioGroup.Input name="spacing" />
