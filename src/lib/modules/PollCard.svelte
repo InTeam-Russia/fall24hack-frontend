@@ -9,11 +9,25 @@
   import RadioPoll from './RadioPoll.svelte';
   import TextPoll from './TextPoll.svelte';
   import type { Poll } from '$lib/utils/types';
+  import { Polls } from '$lib/repository/polls';
 
   export let CardProps: Poll;
   let value: string;
+  let loading: boolean = false;
+  let errorProvider: Record<string, string | null> = {
+    general: '',
+  };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    loading = true;
+
+    errorProvider.general = await Polls.Instance.AnswerThePoll({
+      pollId: CardProps.id ?? 0,
+      text: value,
+    });
+
+    loading = false;
+  };
 </script>
 
 <Card.Root class="mx-2 shadow-md rounded-lg py-3 px-4">
@@ -53,14 +67,20 @@
       <RadioPoll
         variants={CardProps.variants ?? []}
         bind:value
+        bind:loading
         {handleSubmit} />
     {:else}
       <TextPoll
         bind:value
+        bind:loading
         {handleSubmit} />
     {/if}
   </Card.Content>
   <Card.Footer class="m-0 p-0 pt-8">
     <UserLink UserInfo={CardProps.author} />
   </Card.Footer>
+
+  {#if errorProvider.general}
+    <small class="text-destructive my-2">{errorProvider.general}</small>
+  {/if}
 </Card.Root>
