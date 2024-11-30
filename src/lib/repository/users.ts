@@ -106,7 +106,7 @@ export class Users {
 
       if (response.ok) {
         userStore.set(null);
-        window.location.href = '/';
+        goto('/');
       }
     } catch {
       return;
