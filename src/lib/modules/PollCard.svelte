@@ -8,7 +8,7 @@
   import UserLink from '$lib/components/UserLink.svelte';
   import RadioPoll from './RadioPoll.svelte';
   import TextPoll from './TextPoll.svelte';
-  import type { Poll } from '$lib/types/poll';
+  import type { Poll } from '$lib/utils/types';
 
   export let CardProps: Poll;
   let value: string;

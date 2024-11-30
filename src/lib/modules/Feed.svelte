@@ -1,7 +1,7 @@
 <script lang="ts">
   import ProfileCard from '$lib/modules/ProfileCard.svelte';
   import PollCard from '$lib/modules/PollCard.svelte';
-  import type { Poll } from '$lib/types/poll';
+  import type { Poll } from '$lib/utils/types';
   import type { Feed, User } from '$lib/utils/types';
   import { onMount } from 'svelte';
   import FeedRepository from '$lib/repository/feed';
