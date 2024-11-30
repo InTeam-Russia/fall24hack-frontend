@@ -30,4 +30,5 @@ export default class FeedRepository {
       return json;
     }
     return [];
+  }
 }
