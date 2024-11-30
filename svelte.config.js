@@ -19,6 +19,7 @@ const config = {
       $utils: './src/utils',
       $ui: './src/components/ui',
       $modules: './src/modules',
+      $mocks: './src/mocks',
     },
   },
 };

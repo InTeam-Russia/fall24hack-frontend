@@ -53,6 +53,8 @@
     });
 
   const handleSubmit = async () => {
+    loadingState = true;
+
     const validateResult = FormSchema.safeParse(formState);
 
     if (!validateResult.success) {
@@ -93,15 +95,14 @@
       });
 
       if (response.ok) {
-        loadingState = false;
         goto('/auth');
       } else {
         const errorData = await response.json();
         errorProvider.general = (errorData.message as string) || 'Ошибка регистрации';
-        loadingState = false;
       }
     } catch (error) {
       errorProvider.general = (error as string) || 'Сетевая ошибка. Попробуйте позже';
+    } finally {
       loadingState = false;
     }
   };
@@ -141,12 +142,12 @@
   </div>
 
   <div class="flex flex-col gap-2 my-2">
-    <Label for="username">Адрес email</Label>
+    <Label for="username">Почта</Label>
     <Input
       type="text"
       id="email"
       name="email"
-      placeholder="Введите email"
+      placeholder="Введите почту"
       bind:value={formState.email}
       tabindex={3} />
     {#if errorProvider.email}
