@@ -1,5 +1,5 @@
 export interface Poll {
-  id: number;
+  id?: number;
   text: string;
   type: string;
   variants?: string[];
@@ -19,3 +19,13 @@ export interface ApiError {
 }
 
 export type Feed = User[] | Poll;
+
+export interface PollsRequest {
+  pageIndex: number;
+  pageSize: number;
+}
+
+export interface PollAnswer {
+  pollId: number;
+  text: string;
+}
