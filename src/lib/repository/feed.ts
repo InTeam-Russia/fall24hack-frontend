@@ -9,7 +9,21 @@ export default class FeedRepository {
   public static get Instance() {
     return this._instance || (this._instance = new this());
   }
-  public async getFeed(): Promise<Feed[]> {
+  public async getNextFeed(
+    offset: number,
+    size: number,
+    direction: boolean = false,
+  ): Promise<Feed[]> {
+    const delay = (ms: number) => {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    };
+
+    console.log(direction); // TODO: mock for linter, remove this when fetch is used
+
+    await delay(2000);
+
     return [
       {
         id: 1,
@@ -59,6 +73,6 @@ export default class FeedRepository {
           tgLink: 't.me/BoringPlace',
         },
       },
-    ];
+    ] as unknown as Feed[];
   }
 }
