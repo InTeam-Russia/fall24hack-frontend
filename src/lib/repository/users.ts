@@ -28,7 +28,29 @@ export class Users {
   public static get Instance() {
     return this._instance || (this._instance = new this());
   }
-  public async Login() {}
+  public async Login(formRequest: Record<string, string | null>): Promise<null | string> {
+    try {
+      const response = await fetch(`${SERVER}/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formRequest),
+      });
+
+      if (response.ok) {
+        userStore.set(await Users.Instance.GetSession());
+        goto('/profile');
+      } else {
+        const errorData = await response.json();
+        return (errorData.message as string) || 'Ошибка авторизации';
+      }
+    } catch (error) {
+      return (error as string) || 'Сетевая ошибка. Попробуйте позже';
+    }
+    return null;
+  }
 
   public async Register(formRequest: Record<string, string | null>): Promise<null | string> {
     try {
