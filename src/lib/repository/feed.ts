@@ -22,10 +22,12 @@ export default class FeedRepository {
     if (get(debugStore).feed) {
       return await this.getMockedFeed();
     }
-    const feed: Feed[] = await Polls.Instance.GetPolls({
-      pageIndex: index,
-      pageSize: pollsPerPage,
-    });
+    const feed: Feed[] = [
+      ...(await Polls.Instance.GetPolls({
+        pageIndex: index,
+        pageSize: pollsPerPage,
+      })),
+    ];
     const users: User[] = await Recomendations.Instance.GetRecomendations(
       index,
       usersPerPage,

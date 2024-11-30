@@ -4,6 +4,6 @@ import { readable } from 'svelte/store';
 export const debugStore = readable<DebugConfig>({
   feed: false,
   session: false,
-  polls: true,
-  recomendations: true,
+  polls: false,
+  recomendations: false,
 });
