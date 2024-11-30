@@ -12,7 +12,7 @@
   import { Polls } from '$lib/repository/polls';
 
   export let CardProps: Poll;
-  let value: string;
+  let value: string = '';
   let loading: boolean = false;
   let errorProvider: Record<string, string | null> = {
     general: '',
@@ -20,6 +20,12 @@
 
   const handleSubmit = async () => {
     loading = true;
+
+    if (CardProps.type === 'FREE' && value.length < 1) {
+      errorProvider.general = 'Вы не ответили на вопрос';
+      loading = false;
+      return;
+    }
 
     errorProvider.general = await Polls.Instance.AnswerThePoll({
       pollId: CardProps.id ?? 0,
@@ -63,7 +69,7 @@
     </div>
   </Card.Header>
   <Card.Content class="m-0 p-0">
-    {#if CardProps.type == 'radio'}
+    {#if CardProps.type === 'RADIO'}
       <RadioPoll
         variants={CardProps.variants ?? []}
         bind:value

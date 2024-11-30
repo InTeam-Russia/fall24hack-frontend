@@ -34,3 +34,5 @@
     <Check class="h-4 mr-2" />
     Ответить
   {/if}</Button>
+
+<pre>{value}</pre>
