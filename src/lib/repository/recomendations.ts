@@ -1,6 +1,9 @@
 import { SERVER } from '$lib/config';
+import { debugStore } from '$lib/stores/debugStore';
 import { objectToQueryString } from '$lib/utils/converters';
 import type { User } from '$lib/utils/types';
+import recomendations from '$mocks/recomendations';
+import { get } from 'svelte/store';
 
 export class Recomendations {
   private static _instance: Recomendations;
@@ -12,8 +15,11 @@ export class Recomendations {
   public async GetRecomendations(
     index: number,
     size: number,
-    type: 'codirectional|opposite',
+    type: 'codirectional' | 'opposite',
   ): Promise<(User & { overlappingPercentage: number })[]> {
+    if (get(debugStore).recomendations) {
+      return recomendations;
+    }
     const queryParameters = objectToQueryString({
       pageIndex: index,
       pageSize: size,

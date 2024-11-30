@@ -1,6 +1,9 @@
-import type { Feed } from '$lib/utils/types';
+import type { Feed, User } from '$lib/utils/types';
 import feedJson from '$mocks/feeds';
 import { debugStore } from '$lib/stores/debugStore';
+import { get } from 'svelte/store';
+import { Polls } from './polls';
+import { Recomendations } from './recomendations';
 
 export default class FeedRepository {
   private static _instance: FeedRepository;
@@ -9,24 +12,39 @@ export default class FeedRepository {
     return this._instance || (this._instance = new this());
   }
   public async getNextFeed(
-    offset: number,
-    size: number,
+    index: number,
+    pollsPerPage: number,
+    usersPerPage: number,
     direction: boolean = false,
   ): Promise<Feed[]> {
-    if (debugStore) {
-      const delay = (ms: number) => {
-        return new Promise((resolve) => {
-          setTimeout(resolve, ms);
-        });
-      };
+    const directionName: 'codirectional' | 'opposite' = direction ? 'codirectional' : 'opposite';
 
-      console.log(direction); // TODO: mock for linter, remove this when fetch is used
-
-      await delay(2000);
-
-      const json: Feed[] = feedJson as Feed[];
-      return json;
+    if (get(debugStore).feed) {
+      return await this.getMockedFeed();
     }
-    return [];
+    const feed: Feed[] = await Polls.Instance.GetPolls({
+      pageIndex: index,
+      pageSize: pollsPerPage,
+    });
+    const users: User[] = await Recomendations.Instance.GetRecomendations(
+      index,
+      usersPerPage,
+      directionName,
+    );
+    if (users.length != 0) {
+      feed.push(users);
+    }
+    return feed;
+  }
+
+  private async getMockedFeed(): Promise<Feed[]> {
+    const delay = (ms: number) => {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    };
+    await delay(2000);
+    const json: Feed[] = feedJson as Feed[];
+    return json;
   }
 }

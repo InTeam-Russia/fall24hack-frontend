@@ -29,3 +29,10 @@ export interface PollAnswer {
   pollId: number;
   text: string;
 }
+
+export interface DebugConfig {
+  feed: boolean;
+  session: boolean;
+  polls: boolean;
+  recomendations: boolean;
+}
