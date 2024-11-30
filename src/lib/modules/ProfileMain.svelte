@@ -3,6 +3,7 @@
   import { Button } from '$lib/components/ui/button';
   import { Separator } from '$lib/components/ui/separator';
   import { Skeleton } from '$lib/components/ui/skeleton';
+  import { Users } from '$lib/repository/users';
   import { userStore } from '$lib/stores/userStore';
   import { AtSign, LoaderCircle, LogOut, Mail, MessageSquareMore } from 'lucide-svelte';
   import { onMount } from 'svelte';
@@ -38,6 +39,7 @@
 
   const handleLogout = async () => {
     loadingState.logout = true;
+    await Users.Instance.Logout();
     goto('/auth');
   };
 </script>
@@ -107,7 +109,8 @@
     <Button
       type="submit"
       variant="destructive"
-      class="mt-4 max-w-[324px]">
+      class="mt-4 max-w-[324px]"
+      on:click={handleLogout}>
       {#if loadingState.button}
         <LoaderCircle class="animate-spin h-4 mr-2" />
         Выходим...

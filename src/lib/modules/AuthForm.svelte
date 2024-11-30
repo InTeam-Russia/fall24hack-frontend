@@ -3,7 +3,7 @@
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
-  import { SERVER } from '$lib/config';
+  import { Users } from '$lib/repository/users';
   import { KeyRound, LoaderCircle } from 'lucide-svelte';
 
   let errorProvider: Record<string, string | null> = {
@@ -25,6 +25,7 @@
     errorProvider = {
       username: null,
       password: null,
+      general: null,
     };
 
     const formRequest: Record<string, string | null> = {
@@ -32,28 +33,9 @@
       password: formState.password,
     };
 
-    try {
-      const response = await fetch(`${SERVER}/login`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formRequest),
-      });
-
-      if (response.ok) {
-        loadingState = false;
-        goto('/profile');
-      } else {
-        const errorData = await response.json();
-        errorProvider.general = (errorData.message as string) || 'Ошибка авторизации';
-        loadingState = false;
-      }
-    } catch (error) {
-      errorProvider.general = (error as string) || 'Сетевая ошибка. Попробуйте позже';
-      loadingState = false;
-    }
+    errorProvider.general = await Users.Instance.Login(formRequest);
+    if (!errorProvider.general) goto('/');
+    loadingState = false;
   };
 </script>
 

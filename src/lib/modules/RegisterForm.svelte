@@ -3,7 +3,7 @@
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
-  import { SERVER } from '$lib/config';
+  import { Users } from '$lib/repository/users';
   import { KeyRound, LoaderCircle } from 'lucide-svelte';
   import { z } from 'zod';
 
@@ -73,6 +73,7 @@
       tgLink: null,
       password: null,
       confirmPassword: null,
+      general: null,
     };
 
     const formRequest: Record<string, string | null> = {
@@ -84,27 +85,9 @@
       password: formState.password,
     };
 
-    try {
-      const response = await fetch(`${SERVER}/register`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formRequest),
-      });
-
-      if (response.ok) {
-        goto('/auth');
-      } else {
-        const errorData = await response.json();
-        errorProvider.general = (errorData.message as string) || 'Ошибка регистрации';
-      }
-    } catch (error) {
-      errorProvider.general = (error as string) || 'Сетевая ошибка. Попробуйте позже';
-    } finally {
-      loadingState = false;
-    }
+    errorProvider.general = await Users.Instance.Register(formRequest);
+    if (!errorProvider.general) goto('/auth');
+    loadingState = false;
   };
 </script>
 
