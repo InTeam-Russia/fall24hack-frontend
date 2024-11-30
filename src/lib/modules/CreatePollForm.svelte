@@ -99,11 +99,12 @@
     )) as unknown as string;
 
     loading = false;
+    location.reload();
   };
 </script>
 
 <form
-  class="flex flex-col max-w-[480px] mx-4 sm:mx-auto mt-12"
+  class="flex flex-col max-w-screen-sm mx-4 sm:mx-2 mt-12"
   on:submit|preventDefault={handleSubmit}>
   <h1 class="text-3xl text-center font-bold mb-6">Задай свой вопрос</h1>
 
