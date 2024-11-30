@@ -1,12 +1,10 @@
 import type { Feed } from '$lib/utils/types';
 import feedJson from '$mocks/feeds';
+import { debugStore } from '$lib/stores/debugStore';
 
 export default class FeedRepository {
   private static _instance: FeedRepository;
-  private debug: boolean;
-  private constructor() {
-    this.debug = true; // todo switch it for production!
-  }
+  private constructor() {}
   public static get Instance() {
     return this._instance || (this._instance = new this());
   }
@@ -15,7 +13,7 @@ export default class FeedRepository {
     size: number,
     direction: boolean = false,
   ): Promise<Feed[]> {
-    if (this.debug) {
+    if (debugStore) {
       const delay = (ms: number) => {
         return new Promise((resolve) => {
           setTimeout(resolve, ms);
@@ -30,4 +28,5 @@ export default class FeedRepository {
       return json;
     }
     return [];
+  }
 }
