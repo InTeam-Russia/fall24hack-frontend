@@ -1,4 +1,4 @@
-import type { User } from '../stores/userStore';
+import type { User } from '$lib/utils/types';
 
 export interface Poll {
   id: number;

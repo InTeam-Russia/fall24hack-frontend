@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Button } from '$lib/components/ui/button';
   import { Card } from '$lib/components/ui/card';
-  import type { User } from '$lib/stores/userStore';
+  import type { User } from '$lib/utils/types';
   import { AtSign, Mail, MessageSquareMore } from 'lucide-svelte';
 
   export let CardProps: User;
