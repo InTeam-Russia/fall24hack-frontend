@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
   import { Skeleton } from '$lib/components/ui/skeleton';
+  import { Users } from '$lib/repository/users';
   import { userStore } from '$lib/stores/userStore';
   import { Cat, CircleUserRound, KeyRound } from 'lucide-svelte';
 </script>
@@ -48,6 +50,11 @@
             <DropdownMenu.Item href="/">Главная</DropdownMenu.Item>
             <DropdownMenu.Item href="/profile">Профиль</DropdownMenu.Item>
             <DropdownMenu.Item href="/polls/new">Задать вопрос</DropdownMenu.Item>
+            <DropdownMenu.Item
+              on:click={async () => {
+                await Users.Instance.Logout();
+                goto('/auth');
+              }}>Выход</DropdownMenu.Item>
           </DropdownMenu.Group>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
