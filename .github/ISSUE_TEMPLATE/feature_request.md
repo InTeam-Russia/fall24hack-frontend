@@ -1,9 +1,10 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: '[FEAT]'
-labels: feature
-assignees: ''
+title: "[FEAT]"
+labels: bug, documentation
+assignees: tolstovrob
+
 ---
 
 **Problem:**

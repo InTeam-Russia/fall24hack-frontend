@@ -1,9 +1,10 @@
 ---
 name: Question
 about: Ask the question you are looking an answer for
-title: '[FAQ]'
+title: "[FAQ]"
 labels: question
 assignees: ''
+
 ---
 
 **Describe the question**
