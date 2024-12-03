@@ -82,9 +82,6 @@
         {handleSubmit} />
     {/if}
   </Card.Content>
-  <Card.Footer class="m-0 p-0 pt-8">
-    <UserLink UserInfo={CardProps.author} />
-  </Card.Footer>
 
   {#if errorProvider.general}
     <small class="text-destructive my-2">{errorProvider.general}</small>
